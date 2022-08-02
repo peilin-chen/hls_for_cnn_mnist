@@ -43,10 +43,10 @@ void Conv(ap_uint<16> CHin,ap_uint<16> Hin,ap_uint<16> Win,ap_uint<16> CHout,
 							{
 								//Feature [H][W][C]
 								//kernel: [Ky][Kx][CHin][CHout]
-								Dtype_mul tp=feature_in[h][w][cin]*w[ii][jj][cin][cout];
+								//Dtype_mul tp=feature_in[h][w][cin]*w[ii][jj][cin][cout];
 								//std::cout<<"h:"<<h<<",w"<<w<<",cin"<<cin<<"\n";
 								//std::cout<<"feature_in["<<h*CHin*Win+w*CHin+cin<<"]*W["<<ii*Kx*CHin*CHout+jj*CHin*CHout+cin*CHout+cout<<"]\n";
-								//Dtype_mul tp=feature_in[h*CHin*Win+w*CHin+cin]*W[ii*Kx*CHin*CHout+jj*CHin*CHout+cin*CHout+cout];
+								Dtype_mul tp=feature_in[h*CHin*Win+w*CHin+cin]*W[ii*Kx*CHin*CHout+jj*CHin*CHout+cin*CHout+cout];
 								sum+=tp;
 							}
 						}
@@ -55,7 +55,7 @@ void Conv(ap_uint<16> CHin,ap_uint<16> Hin,ap_uint<16> Win,ap_uint<16> CHout,
 				sum+=bias[cout];
 				if(relu_en & sum<0)
 					sum=0;
-				feature_out[i][j][cout]=sum;
-				//feature_out[i*Wout*CHout+j*CHout+cout]=sum;
+				//feature_out[i][j][cout]=sum;
+				feature_out[i*Wout*CHout+j*CHout+cout]=sum;
 			}
 }
